@@ -16,10 +16,14 @@ export interface GpsPayload {
 
 export async function postPosition(payload: GpsPayload): Promise<void> {
   try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (config.gpsApiKey) headers['X-Api-Key'] = config.gpsApiKey;
+
     const res = await fetch(`${config.backendUrl}/api/gps`, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body:    JSON.stringify(payload),
+      signal:  AbortSignal.timeout(5_000),
     });
 
     if (!res.ok) {

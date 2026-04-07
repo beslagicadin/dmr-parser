@@ -69,7 +69,7 @@ export function startDsdReader(onEvent: (event: DmrEvent) => void): void {
       if (m) {
         const lat = parseFloat(m[1]);
         const lon = parseFloat(m[2]);
-        if (!isNaN(lat) && !isNaN(lon)) {
+        if (!isNaN(lat) && !isNaN(lon) && lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
           if (config.debug) console.log(`[dsd] GPS parsed: ${lat}, ${lon}`);
           if (pendingId !== null) {
             // Pair with waiting DMR-ID
